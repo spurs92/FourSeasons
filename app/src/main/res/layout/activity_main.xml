@@ -19,7 +19,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:src="@mipmap/ic_launcher"/>
+                    />
                 <ImageView
                     android:id="@+id/spring_img"
                     android:layout_width="match_parent"
@@ -47,15 +47,17 @@
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navi"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:headerLayout="@layout/drawer_header">
+        app:headerLayout="@layout/drawer_header1">
 
         <android.support.design.widget.NavigationView
+            android:id="@+id/naviTwo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="160dp"
+            android:layout_marginTop="150dp"
+            app:headerLayout="@layout/drawer_header2"
             app:menu="@menu/drawer_menu">
 
         </android.support.design.widget.NavigationView>

@@ -3,6 +3,7 @@ package com.spurs.fourseasons;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,8 +17,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,9 +38,17 @@ public class MainActivity extends AppCompatActivity {
 
     DrawerLayout drawerLayout;
     NavigationView navigationView;
+    NavigationView navigationViewTwo;
 
-    ImageView springImg;
+    ImageView springImg,summerImg,autumnImg,winterImg;
 
+
+    ////////////////////drawer_header2
+    TextView tvTemp, tvDescription, tvTempMax, tvTempMin, tvHumidity, tvClouds;
+
+    RequestQueue requestQueue;
+    String description_data = "";
+    String humidity_data ="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout=(DrawerLayout)findViewById(R.id.layout_drawer);
         navigationView=(NavigationView)findViewById(R.id.navi);
+        navigationViewTwo=(NavigationView)findViewById(R.id.naviTwo);
 
         navigationView.setItemIconTintList(null);
 
@@ -52,15 +73,73 @@ public class MainActivity extends AppCompatActivity {
 
         springImg=(ImageView)findViewById(R.id.spring_img);
         Glide.with(this).load(R.drawable.spring).into(springImg);
+        summerImg=(ImageView)findViewById(R.id.summer_img);
+        Glide.with(this).load(R.drawable.summer).into(summerImg);
+        autumnImg=(ImageView)findViewById(R.id.autumn_img);
+        Glide.with(this).load(R.drawable.autumn).into(autumnImg);
+        winterImg=(ImageView)findViewById(R.id.winter_img);
 
+        ////////////////////////////////////////////////////////////////////////////// 두번째 헤더
+        View v=navigationViewTwo.getHeaderView(0);
+        tvTemp=(TextView)v.findViewById(R.id.tv_temp);
+        tvDescription=(TextView)v.findViewById(R.id.tv_description);
+        tvTempMax=(TextView)v.findViewById(R.id.tv_tempMax);
+        tvTempMin=(TextView)v.findViewById(R.id.tv_tempMin);
+        tvHumidity=(TextView)v.findViewById(R.id.tv_humidity);
+        tvClouds=(TextView)v.findViewById(R.id.tv_clouds);
+
+        requestQueue= Volley.newRequestQueue(this);
+
+        String url="http://api.openweathermap.org/data/2.5/weather?id=1835848&lang=kr&APPID=462730b6b64130d99945a94751ceaf34";
+
+        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONArray arry=response.getJSONArray("weather");
+
+                    for (int i=0; i<arry.length(); i++){
+                        JSONObject jsonObject=arry.getJSONObject(i);
+                        String description=jsonObject.getString("description");
+
+                        description_data=description;
+                    }
+                    tvDescription.setText(description_data);
+
+/*                    JSONArray arry2=response.getJSONArray("main");
+                    for (int i=0; i<arry2.length(); i++){
+                        JSONObject jsonObject=arry2.getJSONObject(i);
+                        String humidity=jsonObject.getString("humidity");
+
+                        humidity_data=humidity;
+                    }
+                    tvHumidity.setText(humidity_data);*/
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
 
     }
 
     @Override
     public void onBackPressed() {
-        finish();
-        overridePendingTransition(R.anim.stop_anim,R.anim.right_out_anim);
-        super.onBackPressed();
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
