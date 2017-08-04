@@ -1,7 +1,8 @@
 package com.spurs.fourseasons;
 
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,10 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,6 +29,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class MainActivity extends AppCompatActivity {
 
 
@@ -45,10 +48,11 @@ public class MainActivity extends AppCompatActivity {
 
     ////////////////////drawer_header2
     TextView tvTemp, tvDescription, tvTempMax, tvTempMin, tvHumidity, tvClouds;
+    ImageView imgWeather;
 
     RequestQueue requestQueue;
     String description_data = "";
-    String humidity_data ="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,11 +92,14 @@ public class MainActivity extends AppCompatActivity {
         tvHumidity=(TextView)v.findViewById(R.id.tv_humidity);
         tvClouds=(TextView)v.findViewById(R.id.tv_clouds);
 
+        imgWeather=(ImageView)v.findViewById(R.id.weatherImg);
+
         requestQueue= Volley.newRequestQueue(this);
 
         String url="http://api.openweathermap.org/data/2.5/weather?id=1835848&lang=kr&APPID=462730b6b64130d99945a94751ceaf34";
 
         JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
             @Override
             public void onResponse(JSONObject response) {
                 try {
@@ -102,20 +109,34 @@ public class MainActivity extends AppCompatActivity {
                     for (int i=0; i<arry.length(); i++){
                         JSONObject jsonObject=arry.getJSONObject(i);
                         String description=jsonObject.getString("description");
+                        String icon=jsonObject.getString("icon");
 
                         description_data=description;
+                        new MyThread(icon).start();
+                        //String imgUrl="http://openweathermap.org/img/w/"+icon+".png";
                     }
                     tvDescription.setText(description_data);
 
-/*                    JSONArray arry2=response.getJSONArray("main");
-                    for (int i=0; i<arry2.length(); i++){
-                        JSONObject jsonObject=arry2.getJSONObject(i);
-                        String humidity=jsonObject.getString("humidity");
 
-                        humidity_data=humidity;
-                    }
-                    tvHumidity.setText(humidity_data);*/
+                    JSONObject object=response.getJSONObject("main");
+                    Double temp= object.getDouble("temp");
+                    String tempNum = String.format("%.1f ", temp-273.15);
+                    tvTemp.setText("현재 온도"+" : "+tempNum+"℃");
 
+                    Double tempMin= object.getDouble("temp_min");
+                    String tempMinNum = String.format("%.1f ", tempMin-273.15);
+                    tvTempMin.setText("최저 온도"+" : "+tempMinNum+"℃");
+
+                    Double tempMax= object.getDouble("temp_max");
+                    String tempMaxNum = String.format("%.1f ", tempMax-273.15);
+                    tvTempMax.setText("최고 온도"+" : "+tempMaxNum+"℃");
+
+                    int humidity= object.getInt("humidity");
+                    tvHumidity.setText("습도"+" : "+humidity+"%");
+
+                    JSONObject object1=response.getJSONObject("clouds");
+                    int clouds = object1.getInt("all");
+                    tvClouds.setText("구름"+" : "+clouds+"%");
 
 
                 } catch (JSONException e) {
@@ -125,12 +146,45 @@ public class MainActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "인터넷을 연결해주세요", Toast.LENGTH_SHORT).show();
             }
         });
 
         requestQueue.add(jsonObjectRequest);
 
+    }
+
+    class MyThread extends Thread{
+
+        String icon;
+
+        public MyThread(String icon) {
+            this.icon = icon;
+        }
+
+        @Override
+        public void run() {
+
+            try {
+                URL url=new URL("http://openweathermap.org/img/w/"+icon+".png");
+
+                InputStream is=url.openStream();
+
+                final Bitmap bm= BitmapFactory.decodeStream(is);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        imgWeather.setImageBitmap(bm);
+                    }
+                });
+
+            } catch (MalformedURLException e) {
+                Toast.makeText(MainActivity.this, "주소를 찾지 못함", Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                Toast.makeText(MainActivity.this, "스트림 연결 실패", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override

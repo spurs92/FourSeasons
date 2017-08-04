@@ -5,4 +5,10 @@
     android:layout_height="150dp"
     android:background="@color/colorPrimary">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="#ffffff"
+        android:text="seffes"/>
+
 </LinearLayout>
