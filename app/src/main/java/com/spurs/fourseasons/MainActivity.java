@@ -220,7 +220,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickSpring(View v){
-
+        Intent intent=new Intent(this,SpringActivity.class);
+        startActivity(intent);
     }
 
     public void clickSummer(View v){
