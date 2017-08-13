@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ public class SpringTab3Fragment extends Fragment {
 
     ArrayList<FestivalItem> items=new ArrayList<>();
 
-    FestivalAdapter festivalAdapter;
+    SpringFestivalAdapter festivalAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +46,7 @@ public class SpringTab3Fragment extends Fragment {
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this.getContext(),LinearLayoutManager.VERTICAL,false);
         recyclerView.setLayoutManager(layoutManager);
 
-        festivalAdapter=new FestivalAdapter(items,this.getContext());
+        festivalAdapter=new SpringFestivalAdapter(items,this.getContext());
         recyclerView.setAdapter(festivalAdapter);
 
         return view;

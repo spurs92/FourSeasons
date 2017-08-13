@@ -19,8 +19,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".BookmarkActivity" />
-        <activity android:name=".SpringActivity"
-            android:theme="@style/AppTheme_NoActionBar"></activity>
+        <activity
+            android:name=".SpringActivity"
+            android:theme="@style/AppTheme_NoActionBar" />
+        <activity android:name=".FestivalDetailActivity"
+            android:theme="@style/AppTheme_NoActionBar"/>
     </application>
 
 </manifest>

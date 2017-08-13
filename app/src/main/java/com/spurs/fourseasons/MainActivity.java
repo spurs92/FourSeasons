@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
                         description_data=description;
                         new MyThread(icon).start();
-                        //String imgUrl="http://openweathermap.org/img/w/"+icon+".png";
+
                     }
                     tvDescription.setText(description_data);
 
