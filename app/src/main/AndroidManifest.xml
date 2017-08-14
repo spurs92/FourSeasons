@@ -24,6 +24,15 @@
             android:theme="@style/AppTheme_NoActionBar" />
         <activity android:name=".FestivalDetailActivity"
             android:theme="@style/AppTheme_NoActionBar"/>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAB5iEpLBvaTBrNiHnf-CaOCsW4QdUmhvE"/>
+
     </application>
 
 </manifest>
