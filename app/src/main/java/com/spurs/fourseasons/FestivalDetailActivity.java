@@ -1,6 +1,5 @@
 package com.spurs.fourseasons;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.widget.NestedScrollView;
@@ -8,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -23,7 +23,6 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -46,10 +45,13 @@ public class FestivalDetailActivity extends AppCompatActivity {
     MySupportMapFragment mySupportMapFragment;
     NestedScrollView nestedScrollView;
 
-
     double mapx, mapy;
 
+
+
     ///////////////////////////////////json1
+    JsonObjectRequest jsonObjectRequest;
+    JsonObjectRequest jsonObjectRequest2;
     RequestQueue requestQueue;
 
     TextView tvAddr, tvOverview, tvHomepage, tvDate, tvUsecash, tvTel, tvPlace;
@@ -81,7 +83,107 @@ public class FestivalDetailActivity extends AppCompatActivity {
         imgToolbar=(ImageView)findViewById(R.id.img_toolbar);
         Glide.with(this).load(titleImg).into(imgToolbar);
 
-        ////////////////////////////////////////////////////////////////map
+
+        ////////////////////////////////////////////////////////////////volley json
+        tvAddr=(TextView)findViewById(R.id.tv_addr);
+        tvOverview=(TextView)findViewById(R.id.tv_overview);
+        tvHomepage=(TextView)findViewById(R.id.tv_homepage);
+        tvDate=(TextView)findViewById(R.id.tv_date);
+        tvUsecash=(TextView)findViewById(R.id.tv_usecash);
+        tvTel=(TextView)findViewById(R.id.tv_tel);
+        tvPlace=(TextView)findViewById(R.id.tv_place);
+
+        requestQueue= Volley.newRequestQueue(this);
+
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, firstUrl, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject object=response.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONObject("item");
+                    String addr=object.getString("addr1");
+                    String overview=object.getString("overview");
+
+                    tvAddr.setText(addr);
+                    tvOverview.setText(overview);
+
+                    if(object.has("homepage")){
+                        String homepage=object.getString("homepage");
+                        tvHomepage.setText(homepage);
+                    }
+
+                    mapx = object.getDouble("mapx");
+                    mapy = object.getDouble("mapy");
+
+                    LatLng seoul=new LatLng(mapy, mapx);
+                    if(map!=null)
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(seoul,15));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "인터넷을 연결해주세요", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        jsonObjectRequest2=new JsonObjectRequest(Request.Method.GET, secondUrl, null, new Response.Listener<JSONObject>() {
+
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONObject object=response.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONObject("item");
+                    String eventplace=object.getString("eventplace");
+                    String eventenddate=object.getString("eventenddate");
+                    String eventstartdate=object.getString("eventstartdate");
+                    String usetimefestival=object.getString("usetimefestival");
+                    String sponsor2tel=object.getString("sponsor2tel");
+
+                    if(object.has("eventhomepage")){
+                        String eventhomepage=object.getString("eventhomepage");
+
+
+                        tvHomepage.setText(eventhomepage);
+
+                    }
+
+                    tvDate.setText(eventstartdate+" ~ "+eventenddate);
+                    tvUsecash.setText(usetimefestival);
+                    tvTel.setText(sponsor2tel);
+
+
+                    if(map!=null){
+                        MarkerOptions marker=new MarkerOptions();
+                        marker.title(eventplace);
+                        marker.position(new LatLng(mapy, mapx));
+                        marker.flat(true);
+
+                        map.addMarker(marker);
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "인터넷을 연결해주세요", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        requestQueue.add(jsonObjectRequest);
+        requestQueue.add(jsonObjectRequest2);
+
+
+        ///////////////////////////////////////////////////////////////////map
         nestedScrollView=(NestedScrollView)findViewById(R.id.nested);
 
         mySupportMapFragment = (MySupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -103,17 +205,7 @@ public class FestivalDetailActivity extends AppCompatActivity {
                     map=googleMap;
 
                     LatLng seoul=new LatLng(mapy, mapx);
-                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(seoul,13));
-
-                    //마커추가하기
-                    MarkerOptions marker=new MarkerOptions();
-                    marker.title("Seoul");
-                    marker.snippet("This is Seoul");
-                    marker.position(seoul);
-                    marker.icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
-                    marker.anchor(0.0f,0.5f);
-
-                    map.addMarker(marker);
+                    map.moveCamera(CameraUpdateFactory.newLatLngZoom(seoul,15));
 
                     //맵 세팅
                     UiSettings settings=map.getUiSettings();
@@ -121,45 +213,6 @@ public class FestivalDetailActivity extends AppCompatActivity {
                 }
             });
         }
-
-        ////////////////////////////////////////////////////////////////volley json
-        tvAddr=(TextView)findViewById(R.id.tv_addr);
-        tvOverview=(TextView)findViewById(R.id.tv_overview);
-        tvHomepage=(TextView)findViewById(R.id.tv_homepage);
-        tvDate=(TextView)findViewById(R.id.tv_date);
-        tvUsecash=(TextView)findViewById(R.id.tv_usecash);
-        tvTel=(TextView)findViewById(R.id.tv_tel);
-        tvPlace=(TextView)findViewById(R.id.tv_place);
-
-        requestQueue= Volley.newRequestQueue(this);
-
-        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, firstUrl, null, new Response.Listener<JSONObject>() {
-
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-
-                    JSONObject object=response.getJSONObject("response").getJSONObject("body").getJSONObject("items").getJSONObject("item");
-                    String addr=object.getString("addr1");
-                    tvAddr.setText(addr);
-
-                    mapx = object.getDouble("mapx");
-                    mapy = object.getDouble("mapy");
-
-                    //tvOverview.setText(mapx+"..."+mapy);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "인터넷을 연결해주세요", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        requestQueue.add(jsonObjectRequest);
 
     }
 
