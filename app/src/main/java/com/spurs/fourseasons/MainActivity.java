@@ -222,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
     public void clickSpring(View v){
         Intent intent=new Intent(this,SpringActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.rignt_in_anim,R.anim.stop_anim);
     }
 
     public void clickSummer(View v){

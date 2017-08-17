@@ -21,6 +21,12 @@ import java.util.ArrayList;
 
 public class SpringFestivalAdapter extends RecyclerView.Adapter {
 
+    public static final int FESTIVALITEM1 = 0;
+    public static final int FESTIVALITEM2 = 1;
+    public static final int FESTIVALITEM3 = 2;
+    public static final int FESTIVALITEM4 = 3;
+    public static final int FESTIVALITEM5 = 4;
+
     ArrayList<FestivalItem> festivalItems;
     Context context;
 
@@ -76,7 +82,7 @@ public class SpringFestivalAdapter extends RecyclerView.Adapter {
 
                     switch (getLayoutPosition()){
 
-                        case 0:
+                        case FESTIVALITEM1:
                             firstUrl="http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?ServiceKey=2e6cMrrGABpQS6omz5Zd4OjKpXHK3zS4hdatS4MnT5y43aB4cR7LE3H3c2u7km477%2BWVKyNvcx9ZwopchevQgg%3D%3D&contentTypeId=15&contentId=1817686&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&transGuideYN=Y&_type=json";
                             secondUrl="http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?ServiceKey=2e6cMrrGABpQS6omz5Zd4OjKpXHK3zS4hdatS4MnT5y43aB4cR7LE3H3c2u7km477%2BWVKyNvcx9ZwopchevQgg%3D%3D&contentTypeId=15&contentId=1817686&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&introYN=Y&_type=json";
                             intent=new Intent(context,FestivalDetailActivity.class);
@@ -87,7 +93,7 @@ public class SpringFestivalAdapter extends RecyclerView.Adapter {
                             context.startActivity(intent);
                             break;
 
-                        case 1:
+                        case FESTIVALITEM2:
                             firstUrl="http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?ServiceKey=2e6cMrrGABpQS6omz5Zd4OjKpXHK3zS4hdatS4MnT5y43aB4cR7LE3H3c2u7km477%2BWVKyNvcx9ZwopchevQgg%3D%3D&contentTypeId=15&contentId=2002493&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&transGuideYN=Y&_type=json";
                             secondUrl="http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?ServiceKey=2e6cMrrGABpQS6omz5Zd4OjKpXHK3zS4hdatS4MnT5y43aB4cR7LE3H3c2u7km477%2BWVKyNvcx9ZwopchevQgg%3D%3D&contentTypeId=15&contentId=2002493&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&introYN=Y&_type=json";
                             intent=new Intent(context,FestivalDetailActivity.class);
@@ -98,7 +104,7 @@ public class SpringFestivalAdapter extends RecyclerView.Adapter {
                             context.startActivity(intent);
                             break;
 
-                        case 2:
+                        case FESTIVALITEM3:
                             firstUrl="http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?ServiceKey=2e6cMrrGABpQS6omz5Zd4OjKpXHK3zS4hdatS4MnT5y43aB4cR7LE3H3c2u7km477%2BWVKyNvcx9ZwopchevQgg%3D%3D&contentTypeId=15&contentId=525755&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&transGuideYN=Y&_type=json";
                             secondUrl="http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?ServiceKey=2e6cMrrGABpQS6omz5Zd4OjKpXHK3zS4hdatS4MnT5y43aB4cR7LE3H3c2u7km477%2BWVKyNvcx9ZwopchevQgg%3D%3D&contentTypeId=15&contentId=525755&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&introYN=Y&_type=json";
                             intent=new Intent(context,FestivalDetailActivity.class);
@@ -108,7 +114,7 @@ public class SpringFestivalAdapter extends RecyclerView.Adapter {
                             intent.putExtra("titleText", title);
                             context.startActivity(intent);
                             break;
-                        case 3:
+                        case FESTIVALITEM4:
                             firstUrl="http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?ServiceKey=2e6cMrrGABpQS6omz5Zd4OjKpXHK3zS4hdatS4MnT5y43aB4cR7LE3H3c2u7km477%2BWVKyNvcx9ZwopchevQgg%3D%3D&contentTypeId=15&contentId=1801281&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&transGuideYN=Y&_type=json";
                             secondUrl="http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?ServiceKey=2e6cMrrGABpQS6omz5Zd4OjKpXHK3zS4hdatS4MnT5y43aB4cR7LE3H3c2u7km477%2BWVKyNvcx9ZwopchevQgg%3D%3D&contentTypeId=15&contentId=1801281&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&introYN=Y&_type=json";
                             intent=new Intent(context,FestivalDetailActivity.class);
@@ -118,7 +124,7 @@ public class SpringFestivalAdapter extends RecyclerView.Adapter {
                             intent.putExtra("titleText", title);
                             context.startActivity(intent);
                             break;
-                        case 4:
+                        case FESTIVALITEM5:
                             firstUrl="http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailCommon?ServiceKey=2e6cMrrGABpQS6omz5Zd4OjKpXHK3zS4hdatS4MnT5y43aB4cR7LE3H3c2u7km477%2BWVKyNvcx9ZwopchevQgg%3D%3D&contentTypeId=15&contentId=1269314&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&defaultYN=Y&firstImageYN=Y&areacodeYN=Y&catcodeYN=Y&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&transGuideYN=Y&_type=json";
                             secondUrl="http://api.visitkorea.or.kr/openapi/service/rest/KorService/detailIntro?ServiceKey=2e6cMrrGABpQS6omz5Zd4OjKpXHK3zS4hdatS4MnT5y43aB4cR7LE3H3c2u7km477%2BWVKyNvcx9ZwopchevQgg%3D%3D&contentTypeId=15&contentId=1269314&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&introYN=Y&_type=json";
                             intent=new Intent(context,FestivalDetailActivity.class);

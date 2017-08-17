@@ -36,10 +36,18 @@ public class SpringActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.stop_anim,R.anim.right_out_anim);
+        super.onBackPressed();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                overridePendingTransition(R.anim.stop_anim,R.anim.right_out_anim);
                 return true;
         }
         return super.onOptionsItemSelected(item);
