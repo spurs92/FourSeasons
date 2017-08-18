@@ -8,11 +8,13 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,6 +35,11 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.kakao.kakaolink.AppActionBuilder;
+import com.kakao.kakaolink.AppActionInfoBuilder;
+import com.kakao.kakaolink.KakaoLink;
+import com.kakao.kakaolink.KakaoTalkLinkMessageBuilder;
+import com.kakao.util.KakaoParameterException;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,6 +49,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 public class FestivalDetailActivity extends AppCompatActivity {
+
 
     ImageView imgToolbar;
     Toolbar toolbar;
@@ -67,6 +75,8 @@ public class FestivalDetailActivity extends AppCompatActivity {
 
     TextView tvAddr, tvOverview, tvHomepage, tvDate, tvUsecash, tvTel, tvPlace;
 
+    String titleText;
+    String titleImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +84,8 @@ public class FestivalDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_festival_detail);
 
         Intent intent = getIntent();
-        String titleImg = intent.getStringExtra("titleImg");
-        String titleText = intent.getStringExtra("titleText");
+        titleImg = intent.getStringExtra("titleImg");
+        titleText = intent.getStringExtra("titleText");
         String firstUrl = intent.getStringExtra("firstUrl");
         String secondUrl = intent.getStringExtra("secondUrl");
 
@@ -84,6 +94,7 @@ public class FestivalDetailActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
 
         //text 색상
         collapsing = (CollapsingToolbarLayout) findViewById(R.id.collapsing);
@@ -115,15 +126,35 @@ public class FestivalDetailActivity extends AppCompatActivity {
                     String addr = object.getString("addr1");
                     tvAddr.setText(addr);
 
-                    final String tel = object.getString("tel");
-                    tvTel.setText(tel);
-                    tvTel.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+tel));
-                            startActivity(intent);
+                    if(object.has("tel")){
+                        final String tel = object.getString("tel");
+                        if (tel.contains("<")){
+                            int idx=tel.indexOf("<");
+                            final String text=tel.substring(0,idx);
+                            //Document doc=Jsoup.parse(tel);
+                            //final String text=doc.text();
+                            tvTel.setText(text);
+
+                            tvTel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+text));
+                                    startActivity(intent);
+                                }
+                            });
+                        }else {
+                            tvTel.setText(tel);
+
+                            tvTel.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+tel));
+                                    startActivity(intent);
+                                }
+                            });
                         }
-                    });
+
+                    }
 
                     if(object.has("overview")){
                         String overview = object.getString("overview");
@@ -155,32 +186,6 @@ public class FestivalDetailActivity extends AppCompatActivity {
                     mapx = object.getDouble("mapx");
                     mapy = object.getDouble("mapy");
 
-                    mySupportMapFragment.getMapAsync(new OnMapReadyCallback() {
-
-                        @Override
-                        public void onMapReady(GoogleMap googleMap) {
-
-                            map = googleMap;
-
-                            LatLng seoul = new LatLng(mapy, mapx);
-                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(seoul, 15));
-/*                            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                                // TODO: Consider calling
-                                //    ActivityCompat#requestPermissions
-                                // here to request the missing permissions, and then overriding
-                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                                //                                          int[] grantResults)
-                                // to handle the case where the user grants the permission. See the documentation
-                                // for ActivityCompat#requestPermissions for more details.
-                            }
-                            map.setMyLocationEnabled(true);*/
-
-                            //맵 세팅
-                            UiSettings settings=map.getUiSettings();
-                            settings.setZoomControlsEnabled(true);
-
-                        }
-                    });
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -232,14 +237,17 @@ public class FestivalDetailActivity extends AppCompatActivity {
                         public void onMapReady(GoogleMap googleMap) {
                             map=googleMap;
 
+                            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mapy, mapx), 15));
+
                             MarkerOptions marker=new MarkerOptions();
                             marker.title(eventplace);
                             marker.position(new LatLng(mapy, mapx));
                             marker.flat(true);
                             marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-
                             map.addMarker(marker);
 
+                            UiSettings settings=map.getUiSettings();
+                            settings.setZoomControlsEnabled(true);
                         }
                     });
 
@@ -290,16 +298,51 @@ public class FestivalDetailActivity extends AppCompatActivity {
 
         int id=item.getItemId();
 
-        if(id==android.R.id.home){
-            finish();
-            //overridePendingTransition(R.anim.stop_anim,R.anim.right_out_anim);
-            return true;
+        Intent intent;
+
+        switch (id){
+            case android.R.id.home:
+                finish();
+                return  true;
+
+            case R.id.item_share:
+
+                shareKakao();
+
+                break;
+
+            case R.id.item_home:
+                intent = new Intent(this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_detail_icon,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    public void shareKakao(){
+        try {
+            KakaoLink kakaoLink = KakaoLink.getKakaoLink(this);
+            KakaoTalkLinkMessageBuilder kakaoTalkBuilder = kakaoLink.createKakaoTalkLinkMessageBuilder();
+
+            kakaoTalkBuilder.addText("["+titleText+"] - 정보");
+            kakaoTalkBuilder.addImage(titleImg,160,160);
+            kakaoTalkBuilder.addAppButton("앱 실행 혹은 다운로드");
+            kakaoLink.sendMessage(kakaoTalkBuilder,this);
+
+        } catch (KakaoParameterException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }
+
+
