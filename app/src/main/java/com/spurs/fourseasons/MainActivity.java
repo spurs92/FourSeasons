@@ -68,8 +68,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     SignInButton signInButton;
     FirebaseAuth mAuth;
     GoogleApiClient mGoogleApiClient;
+    FirebaseAuth.AuthStateListener mAuthListener;
+
+    TextView tvLogin, tvInfo;
+    TextView tvLoginText;
+    TextView tvEmail, tvName;
     Button logoutBtn;
-    Button revokeBtn;
 
 
     ////////////////////drawer_header2
@@ -125,6 +129,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         /////////////////////////////////////////////////////////////////////////////첫번째 헤더
         View vTwo=navigationView.getHeaderView(0);
+        tvLogin=(TextView)vTwo.findViewById(R.id.tv_login);
+        tvInfo=(TextView)vTwo.findViewById(R.id.tv_info);
+        tvEmail=(TextView)vTwo.findViewById(R.id.tv_email);
+        tvName=(TextView)vTwo.findViewById(R.id.tv_name);
+        tvLoginText=(TextView)vTwo.findViewById(R.id.tv_loginText);
+        logoutBtn=(Button)vTwo.findViewById(R.id.btn_logout);
+
+
         signInButton=(SignInButton)vTwo.findViewById(R.id.singBtn);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,8 +148,47 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             }
         });
 
+        logoutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+            }
+        });
 
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    tvLogin.setVisibility(View.INVISIBLE);
+                    tvInfo.setVisibility(View.VISIBLE);
 
+                    tvLoginText.setVisibility(View.INVISIBLE);
+                    tvEmail.setVisibility(View.VISIBLE);
+                    tvName.setVisibility(View.VISIBLE);
+
+                    tvEmail.setText(mAuth.getCurrentUser().getEmail());
+                    tvName.setText(mAuth.getCurrentUser().getDisplayName());
+                    signInButton.setVisibility(View.INVISIBLE);
+                    logoutBtn.setVisibility(View.VISIBLE);
+
+                } else {
+                    // User is signed out
+                    tvLogin.setVisibility(View.VISIBLE);
+                    tvInfo.setVisibility(View.INVISIBLE);
+
+                    tvLoginText.setVisibility(View.VISIBLE);
+                    tvEmail.setVisibility(View.INVISIBLE);
+                    tvName.setVisibility(View.INVISIBLE);
+
+                    signInButton.setVisibility(View.VISIBLE);
+                    logoutBtn.setVisibility(View.INVISIBLE);
+
+                }
+                // ...
+            }
+        };
 
 
         ////////////////////////////////////////////////////////////////////////////// 두번째 헤더
@@ -210,6 +261,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         requestQueue.add(jsonObjectRequest);
 
     }////////////////////////////////////////////////////////////onCreate method..
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+    }
 
 
     @Override
