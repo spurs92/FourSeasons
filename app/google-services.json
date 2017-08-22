@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "397830771182",
+    "firebase_url": "https://fourseasons-ffe6f.firebaseio.com",
+    "project_id": "fourseasons-ffe6f",
+    "storage_bucket": "fourseasons-ffe6f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397830771182:android:f89e5588ab90cf2a",
+        "android_client_info": {
+          "package_name": "com.spurs.fourseasons"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397830771182-u98t4tn3qr9v99du85vkveqh7gjsbfvj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spurs.fourseasons",
+            "certificate_hash": "a63171234e3bf3017c8b3fc8fc141025793b8842"
+          }
+        },
+        {
+          "client_id": "397830771182-vusresbsqch09jqiun6k7rpp55ednb35.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvQu1-f5NaaoHGK3z_irWy7Uxyb35zUCY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "397830771182-vusresbsqch09jqiun6k7rpp55ednb35.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
