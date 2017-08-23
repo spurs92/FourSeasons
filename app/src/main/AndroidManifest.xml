@@ -2,11 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.spurs.fourseasons">
 
-    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>-->
+    <!--
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    -->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -26,21 +28,23 @@
         <activity
             android:name=".SpringActivity"
             android:theme="@style/AppTheme_NoActionBar" />
-        <activity android:name=".FestivalDetailActivity"
-            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".FestivalDetailActivity"
+            android:theme="@style/AppTheme_NoActionBar" />
 
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAB5iEpLBvaTBrNiHnf-CaOCsW4QdUmhvE"/>
-
+            android:value="AIzaSyAB5iEpLBvaTBrNiHnf-CaOCsW4QdUmhvE" />
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
 
+        <activity android:name=".BoardActivity" />
+        <activity android:name=".BoardWriteActivity"
+            android:theme="@style/Transparent"></activity>
     </application>
 
 </manifest>

@@ -43,6 +43,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,6 +76,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     TextView tvLoginText;
     TextView tvEmail, tvName;
     Button logoutBtn;
+    FirebaseUser user;
+
+    FirebaseDatabase database;
+    DatabaseReference myRef;
 
 
     ////////////////////drawer_header2
@@ -127,6 +133,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("message");
+
         /////////////////////////////////////////////////////////////////////////////첫번째 헤더
         View vTwo=navigationView.getHeaderView(0);
         tvLogin=(TextView)vTwo.findViewById(R.id.tv_login);
@@ -158,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
                     tvLogin.setVisibility(View.INVISIBLE);
@@ -172,6 +181,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     tvName.setText(mAuth.getCurrentUser().getDisplayName());
                     signInButton.setVisibility(View.INVISIBLE);
                     logoutBtn.setVisibility(View.VISIBLE);
+
+                    myRef.setValue("실험");
+
 
                 } else {
                     // User is signed out
@@ -261,6 +273,35 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         requestQueue.add(jsonObjectRequest);
 
+        /////////////////////////////////////////////////////////////////////menu
+        navigationViewTwo.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()){
+
+                    case R.id.board:
+                        //Toast.makeText(MainActivity.this, "board", Toast.LENGTH_SHORT).show();
+
+                        if (user != null) {
+                            drawerLayout.closeDrawer(navigationView);
+                            Intent intent=new Intent(getApplicationContext(),BoardActivity.class);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.left_in_anim,R.anim.stop_anim);
+                        } else {
+                            Toast.makeText(MainActivity.this, "로그인이 필요한 서비스 입니다", Toast.LENGTH_SHORT).show();
+                        }
+
+
+                        break;
+                }
+
+                return false;
+            }
+        });
+
+
     }////////////////////////////////////////////////////////////onCreate method..
 
     @Override
@@ -311,6 +352,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }else {
                             Toast.makeText(MainActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
+
                         }
                         // ...
                     }

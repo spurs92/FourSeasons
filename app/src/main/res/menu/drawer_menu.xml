@@ -31,8 +31,8 @@
         android:id="@+id/group2"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/a"
-            android:title="겨울"
+            android:id="@+id/board"
+            android:title="게시판"
             android:icon="@mipmap/ic_launcher"/>
         <item
             android:id="@+id/b"
