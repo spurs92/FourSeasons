@@ -245,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     JSONObject object1=response.getJSONObject("clouds");
                     int clouds = object1.getInt("all");
                     tvClouds.setText("구름"+" : "+clouds+"%");
+                    //Log.i("se",description_data);
 
 
                 } catch (JSONException e) {
