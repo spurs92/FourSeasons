@@ -72,15 +72,17 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     GoogleApiClient mGoogleApiClient;
     FirebaseAuth.AuthStateListener mAuthListener;
 
+    String userEmail;
+    String userName;
+
+//    FirebaseDatabase database;
+//    DatabaseReference myRef;
+
     TextView tvLogin, tvInfo;
     TextView tvLoginText;
     TextView tvEmail, tvName;
     Button logoutBtn;
     FirebaseUser user;
-
-    FirebaseDatabase database;
-    DatabaseReference myRef;
-
 
     ////////////////////drawer_header2
     TextView tvTemp, tvDescription, tvTempMax, tvTempMin, tvHumidity, tvClouds;
@@ -121,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
 
         ////////////////////////////////////////////////////////////////// Configure Google Sign In
-        mAuth=FirebaseAuth.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -133,8 +134,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("message");
+        mAuth=FirebaseAuth.getInstance();
+//        database = FirebaseDatabase.getInstance();
+//        myRef = database.getReference();
+
+
 
         /////////////////////////////////////////////////////////////////////////////첫번째 헤더
         View vTwo=navigationView.getHeaderView(0);
@@ -150,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 //Toast.makeText(MainActivity.this, "구글로그인", Toast.LENGTH_SHORT).show();
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(signInIntent, 10);
@@ -182,8 +187,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     signInButton.setVisibility(View.INVISIBLE);
                     logoutBtn.setVisibility(View.VISIBLE);
 
-                    myRef.setValue("실험");
-
+                    userEmail=mAuth.getCurrentUser().getUid();
+                    userName=mAuth.getCurrentUser().getDisplayName();
+                    //myRef = database.getReference(mAuth.getCurrentUser().getUid());
+                    //myRef.child(mAuth.getCurrentUser().getEmail());
 
                 } else {
                     // User is signed out
@@ -201,7 +208,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 // ...
             }
         };
-
 
         ////////////////////////////////////////////////////////////////////////////// 두번째 헤더
         View v=navigationViewTwo.getHeaderView(0);
@@ -287,12 +293,13 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         if (user != null) {
                             drawerLayout.closeDrawer(navigationView);
                             Intent intent=new Intent(getApplicationContext(),BoardActivity.class);
+                            intent.putExtra("userEmail",userEmail);
+                            intent.putExtra("userName",userName);
                             startActivity(intent);
                             overridePendingTransition(R.anim.left_in_anim,R.anim.stop_anim);
                         } else {
                             Toast.makeText(MainActivity.this, "로그인이 필요한 서비스 입니다", Toast.LENGTH_SHORT).show();
                         }
-
 
                         break;
                 }

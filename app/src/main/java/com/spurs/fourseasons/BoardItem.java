@@ -9,6 +9,8 @@ public class BoardItem {
     String name;
     String contentText;
 
+    public BoardItem(){}
+
     public BoardItem(String name, String contentText) {
         this.name = name;
         this.contentText = contentText;
