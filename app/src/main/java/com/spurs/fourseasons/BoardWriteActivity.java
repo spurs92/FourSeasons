@@ -61,7 +61,7 @@ public class BoardWriteActivity extends AppCompatActivity {
     public void clickWrite(View v){
 
         BoardItem boardItem=new BoardItem(userName,contentText.getText().toString());
-        myRef.child(userEmail).push().setValue(boardItem);
+        myRef.child("users").push().setValue(boardItem);
 
         finish();
     }

@@ -35,8 +35,8 @@
             android:title="게시판"
             android:icon="@mipmap/ic_launcher"/>
         <item
-            android:id="@+id/b"
-            android:title="겨울"
+            android:id="@+id/inquiry"
+            android:title="문의하기"
             android:icon="@mipmap/ic_launcher"/>
     </group>
 

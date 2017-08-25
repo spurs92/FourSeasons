@@ -43,6 +43,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -74,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     String userEmail;
     String userName;
+
+    FirebaseDatabase database;
+    DatabaseReference myRef;
 
 //    FirebaseDatabase database;
 //    DatabaseReference myRef;
@@ -135,10 +141,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 .build();
 
         mAuth=FirebaseAuth.getInstance();
-//        database = FirebaseDatabase.getInstance();
-//        myRef = database.getReference();
 
-
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
 
         /////////////////////////////////////////////////////////////////////////////첫번째 헤더
         View vTwo=navigationView.getHeaderView(0);
@@ -189,8 +194,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                     userEmail=mAuth.getCurrentUser().getUid();
                     userName=mAuth.getCurrentUser().getDisplayName();
-                    //myRef = database.getReference(mAuth.getCurrentUser().getUid());
-                    //myRef.child(mAuth.getCurrentUser().getEmail());
 
                 } else {
                     // User is signed out
@@ -288,7 +291,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 switch (item.getItemId()){
 
                     case R.id.board:
-                        //Toast.makeText(MainActivity.this, "board", Toast.LENGTH_SHORT).show();
 
                         if (user != null) {
                             drawerLayout.closeDrawer(navigationView);
@@ -297,10 +299,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             intent.putExtra("userName",userName);
                             startActivity(intent);
                             overridePendingTransition(R.anim.left_in_anim,R.anim.stop_anim);
+
                         } else {
                             Toast.makeText(MainActivity.this, "로그인이 필요한 서비스 입니다", Toast.LENGTH_SHORT).show();
                         }
+                        break;
 
+                    case R.id.inquiry:
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("plain/text");
+                        String[] address = {"spurs92@naver.com"};
+                        intent.putExtra(Intent.EXTRA_EMAIL, address);
+                        startActivity(intent);
                         break;
                 }
 

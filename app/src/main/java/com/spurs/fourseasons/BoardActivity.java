@@ -11,12 +11,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class BoardActivity extends AppCompatActivity {
 
@@ -26,7 +30,9 @@ public class BoardActivity extends AppCompatActivity {
 
     BoardAdapter adapter;
 
+    FirebaseDatabase database;
     DatabaseReference myRef;
+
     String userEmail,userName;
 
     @Override
@@ -50,22 +56,35 @@ public class BoardActivity extends AppCompatActivity {
         adapter=new BoardAdapter(boardItems,this);
         recyclerView.setAdapter(adapter);
 
-/*        myRef.addValueEventListener(new ValueEventListener() {
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
+
+        myRef.child("users").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                //데이터를 화면에 출력해 준다.
-                boardItems.add(new BoardItem("ddd",value));
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                BoardItem boardItem = dataSnapshot.getValue(BoardItem.class);
+                boardItems.add(new BoardItem(boardItem.name,boardItem.contentText));
+                //Log.i("dbName",boardItem.name);
+                //Log.d("onChildAdded",dataSnapshot.getKey());
+                adapter.notifyItemInserted(0);
+                adapter.notifyDataSetChanged();
+
             }
 
             @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Toast.makeText(BoardActivity.this, "DB 등록 실패", Toast.LENGTH_SHORT).show();
-            }
-        });*/
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) { }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) { }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) { }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) { }
+        });
+
 
     }
 
