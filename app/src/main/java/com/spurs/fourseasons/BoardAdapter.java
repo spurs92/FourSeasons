@@ -1,6 +1,7 @@
 package com.spurs.fourseasons;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -57,6 +58,20 @@ public class BoardAdapter extends RecyclerView.Adapter {
 
             name=(TextView)itemView.findViewById(R.id.tv_nickName);
             contentText=(TextView)itemView.findViewById(R.id.tv_contentText);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    switch (getItemCount()){
+
+                        case 0:
+                            Intent intent=new Intent(context,BoardCommentActivity.class);
+                            context.startActivity(intent);
+                            break;
+                    }
+                }
+            });
         }
     }
 }
