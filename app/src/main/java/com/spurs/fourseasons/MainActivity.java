@@ -81,9 +81,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     FirebaseDatabase database;
     DatabaseReference myRef;
 
-//    FirebaseDatabase database;
-//    DatabaseReference myRef;
-
     TextView tvLogin, tvInfo;
     TextView tvLoginText;
     TextView tvEmail, tvName;
@@ -189,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                     tvEmail.setText(mAuth.getCurrentUser().getEmail());
                     tvName.setText(mAuth.getCurrentUser().getDisplayName());
+
                     signInButton.setVisibility(View.INVISIBLE);
                     logoutBtn.setVisibility(View.VISIBLE);
 

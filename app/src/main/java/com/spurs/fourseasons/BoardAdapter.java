@@ -3,10 +3,18 @@ package com.spurs.fourseasons;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -18,6 +26,11 @@ public class BoardAdapter extends RecyclerView.Adapter {
 
     ArrayList<BoardItem> boardItems;
     Context context;
+
+    FirebaseDatabase database= FirebaseDatabase.getInstance();
+    DatabaseReference myRef= database.getReference();
+
+    DataSnapshot dataSnapshot;
 
     public BoardAdapter(ArrayList<BoardItem> boardItems, Context context) {
         this.boardItems = boardItems;
@@ -52,7 +65,7 @@ public class BoardAdapter extends RecyclerView.Adapter {
         TextView name;
         TextView contentText;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
             this.itemView=itemView;
 
@@ -63,13 +76,15 @@ public class BoardAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
 
-                    switch (getItemCount()){
+                    String userid=boardItems.get(getLayoutPosition()).userid;
+                    Toast.makeText(context, userid, Toast.LENGTH_SHORT).show();
 
-                        case 0:
-                            Intent intent=new Intent(context,BoardCommentActivity.class);
-                            context.startActivity(intent);
-                            break;
-                    }
+                    BoardCommentItem boardCommentItem = new BoardCommentItem("aaa","bbb");
+                    myRef.child("users").child(userid).child("Comment").setValue(boardCommentItem);
+
+                    Intent intent=new Intent(context,BoardCommentActivity.class);
+                    context.startActivity(intent);
+
                 }
             });
         }

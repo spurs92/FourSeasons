@@ -8,12 +8,14 @@ public class BoardItem {
 
     String name;
     String contentText;
+    String userid;
 
     public BoardItem(){}
 
-    public BoardItem(String name, String contentText) {
+    public BoardItem(String name, String contentText, String userid) {
         this.name = name;
         this.contentText = contentText;
+        this.userid= userid;
     }
 
     public String getName() {
@@ -30,5 +32,13 @@ public class BoardItem {
 
     public void setContentText(String contentText) {
         this.contentText = contentText;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
     }
 }

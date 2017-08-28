@@ -22,7 +22,7 @@ public class BoardWriteActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference myRef;
 
-    String userEmail, userName;
+    String userEmail, userName, userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +37,8 @@ public class BoardWriteActivity extends AppCompatActivity {
         Intent intent=getIntent();
         userEmail=intent.getStringExtra("userEmail");
         userName=intent.getStringExtra("userName");
+
+        userid=myRef.child("users").push().getKey();
 
 
 /*        myRef.addValueEventListener(new ValueEventListener() {
@@ -60,8 +62,9 @@ public class BoardWriteActivity extends AppCompatActivity {
 
     public void clickWrite(View v){
 
-        BoardItem boardItem=new BoardItem(userName,contentText.getText().toString());
-        myRef.child("users").push().setValue(boardItem);
+
+        BoardItem boardItem=new BoardItem(userName,contentText.getText().toString(),userid);
+        myRef.child("users").child(userid).setValue(boardItem);
 
         finish();
     }
