@@ -1,6 +1,7 @@
 package com.spurs.fourseasons;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -35,6 +36,7 @@ public class BoardActivity extends AppCompatActivity {
     DatabaseReference myRef;
 
     String userEmail,userName;
+    Uri imgUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,7 @@ public class BoardActivity extends AppCompatActivity {
         final Intent intent=getIntent();
         userEmail=intent.getStringExtra("userEmail");
         userName=intent.getStringExtra("userName");
+        imgUri=intent.getParcelableExtra("imgUri");
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -65,7 +68,7 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 BoardItem boardItem = dataSnapshot.getValue(BoardItem.class);
-                boardItems.add(new BoardItem(boardItem.name,boardItem.contentText,boardItem.userid));
+                boardItems.add(new BoardItem(boardItem.name,boardItem.contentText,boardItem.userid,boardItem.userUri,boardItem.date));
                 //Log.i("dbName",boardItem.name);
                 //Log.d("onChildAdded",dataSnapshot.getKey());
                 recyclerView.scrollToPosition(0);
@@ -97,6 +100,7 @@ public class BoardActivity extends AppCompatActivity {
         Intent intent=new Intent(this,BoardWriteActivity.class);
         intent.putExtra("userEmail",userEmail);
         intent.putExtra("userName",userName);
+        intent.putExtra("imgUri",imgUri);
         startActivity(intent);
     }
 

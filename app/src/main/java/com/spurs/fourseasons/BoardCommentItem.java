@@ -8,10 +8,16 @@ public class BoardCommentItem {
 
     String name;
     String comment;
+    String userImgUri;
+    String date;
 
-    public BoardCommentItem(String name, String comment) {
+    public BoardCommentItem(){}
+
+    public BoardCommentItem(String name, String comment, String userImgUri, String date) {
         this.name = name;
         this.comment = comment;
+        this.userImgUri=userImgUri;
+        this.date=date;
     }
 
     public String getName() {
@@ -28,5 +34,21 @@ public class BoardCommentItem {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getUserImgUri() {
+        return userImgUri;
+    }
+
+    public void setUserImgUri(String userImgUri) {
+        this.userImgUri = userImgUri;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

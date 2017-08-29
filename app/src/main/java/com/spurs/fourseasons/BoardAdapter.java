@@ -7,9 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,7 +33,8 @@ public class BoardAdapter extends RecyclerView.Adapter {
     FirebaseDatabase database= FirebaseDatabase.getInstance();
     DatabaseReference myRef= database.getReference();
 
-    DataSnapshot dataSnapshot;
+    FirebaseAuth mAuth=FirebaseAuth.getInstance();
+
 
     public BoardAdapter(ArrayList<BoardItem> boardItems, Context context) {
         this.boardItems = boardItems;
@@ -51,6 +55,8 @@ public class BoardAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         ((ViewHolder)holder).name.setText(boardItems.get(position).name);
         ((ViewHolder)holder).contentText.setText(boardItems.get(position).contentText);
+        Glide.with(context).load(boardItems.get(position).userUri).into(((ViewHolder) holder).uerImg);
+        ((ViewHolder)holder).date.setText(boardItems.get(position).date);
     }
 
     @Override
@@ -64,6 +70,8 @@ public class BoardAdapter extends RecyclerView.Adapter {
 
         TextView name;
         TextView contentText;
+        ImageView uerImg;
+        TextView date;
 
         public ViewHolder(final View itemView) {
             super(itemView);
@@ -71,20 +79,27 @@ public class BoardAdapter extends RecyclerView.Adapter {
 
             name=(TextView)itemView.findViewById(R.id.tv_nickName);
             contentText=(TextView)itemView.findViewById(R.id.tv_contentText);
+            uerImg=(ImageView)itemView.findViewById(R.id.userImg);
+            date=(TextView)itemView.findViewById(R.id.tv_date);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     String userid=boardItems.get(getLayoutPosition()).userid;
-                    Toast.makeText(context, userid, Toast.LENGTH_SHORT).show();
-
-                    BoardCommentItem boardCommentItem = new BoardCommentItem("aaa","bbb");
-                    myRef.child("users").child(userid).child("Comment").setValue(boardCommentItem);
+                    String userName=boardItems.get(getLayoutPosition()).name;
+                    String userContentText=boardItems.get(getLayoutPosition()).contentText;
+                    String imgUri=boardItems.get(getLayoutPosition()).userUri;
+                    String date=boardItems.get(getLayoutPosition()).date;
 
                     Intent intent=new Intent(context,BoardCommentActivity.class);
-                    context.startActivity(intent);
+                    intent.putExtra("userid",userid);
+                    intent.putExtra("userName",userName);
+                    intent.putExtra("userContentText",userContentText);
+                    intent.putExtra("imgUri",imgUri);
+                    intent.putExtra("date",date);
 
+                    context.startActivity(intent);
                 }
             });
         }

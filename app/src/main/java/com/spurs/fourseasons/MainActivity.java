@@ -3,6 +3,7 @@ package com.spurs.fourseasons;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -43,6 +44,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     String userEmail;
     String userName;
+    Uri imgUri;
 
     FirebaseDatabase database;
     DatabaseReference myRef;
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     TextView tvLoginText;
     TextView tvEmail, tvName;
     Button logoutBtn;
+    ImageView userImg;
     FirebaseUser user;
 
     ////////////////////drawer_header2
@@ -150,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         tvName=(TextView)vTwo.findViewById(R.id.tv_name);
         tvLoginText=(TextView)vTwo.findViewById(R.id.tv_loginText);
         logoutBtn=(Button)vTwo.findViewById(R.id.btn_logout);
+        userImg=(ImageView)vTwo.findViewById(R.id.userImg);
 
 
         signInButton=(SignInButton)vTwo.findViewById(R.id.singBtn);
@@ -177,6 +182,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
+
+                    for (UserInfo profile : user.getProviderData()) {
+
+                        imgUri=profile.getPhotoUrl();
+                        Glide.with(getApplicationContext()).load(imgUri).into(userImg);
+                        userImg.setVisibility(View.VISIBLE);
+                        Log.i("userUri1", String.valueOf(imgUri));
+                    }
+
                     tvLogin.setVisibility(View.INVISIBLE);
                     tvInfo.setVisibility(View.VISIBLE);
 
@@ -193,6 +207,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     userEmail=mAuth.getCurrentUser().getUid();
                     userName=mAuth.getCurrentUser().getDisplayName();
 
+
                 } else {
                     // User is signed out
                     tvLogin.setVisibility(View.VISIBLE);
@@ -204,6 +219,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                     signInButton.setVisibility(View.VISIBLE);
                     logoutBtn.setVisibility(View.INVISIBLE);
+
+                    userImg.setVisibility(View.INVISIBLE);
 
                 }
                 // ...
@@ -295,6 +312,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                             Intent intent=new Intent(getApplicationContext(),BoardActivity.class);
                             intent.putExtra("userEmail",userEmail);
                             intent.putExtra("userName",userName);
+                            intent.putExtra("imgUri",imgUri);
                             startActivity(intent);
                             overridePendingTransition(R.anim.left_in_anim,R.anim.stop_anim);
 

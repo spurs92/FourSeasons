@@ -1,6 +1,7 @@
 package com.spurs.fourseasons;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class BoardWriteActivity extends AppCompatActivity {
 
     EditText contentText;
@@ -23,6 +27,10 @@ public class BoardWriteActivity extends AppCompatActivity {
     DatabaseReference myRef;
 
     String userEmail, userName, userid;
+
+    Uri userUri;
+    String currentdate;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,33 +45,19 @@ public class BoardWriteActivity extends AppCompatActivity {
         Intent intent=getIntent();
         userEmail=intent.getStringExtra("userEmail");
         userName=intent.getStringExtra("userName");
+        userUri=intent.getParcelableExtra("imgUri");
+
+        Date date=new Date(System.currentTimeMillis());
+        SimpleDateFormat CurDateFormat=new SimpleDateFormat("yyyy/MM/dd a hh:mm");
+        currentdate=CurDateFormat.format(date);
 
         userid=myRef.child("users").push().getKey();
-
-
-/*        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                value = dataSnapshot.getValue(String.class);
-                //데이터를 화면에 출력해 준다.
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Toast.makeText(BoardWriteActivity.this, "DB 등록 실패", Toast.LENGTH_SHORT).show();
-            }
-        });*/
 
     }
 
     public void clickWrite(View v){
 
-
-        BoardItem boardItem=new BoardItem(userName,contentText.getText().toString(),userid);
+        BoardItem boardItem=new BoardItem(userName,contentText.getText().toString(),userid,userUri.toString(),currentdate);
         myRef.child("users").child(userid).setValue(boardItem);
 
         finish();
