@@ -1,6 +1,8 @@
 package com.spurs.fourseasons;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,6 +50,7 @@ public class BoardCommentActivity extends AppCompatActivity {
 
     String currentdate;
 
+    Uri photoUrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,16 +84,12 @@ public class BoardCommentActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
-        String aaa=intent.getStringExtra("userid");
-        Log.i("aaa",aaa);
-
         myRef.child("users").child(intent.getStringExtra("userid")).child("Comment").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 BoardCommentItem boardCommentItem = dataSnapshot.getValue(BoardCommentItem.class);
                 boardCommentItems.add(new BoardCommentItem(boardCommentItem.name,boardCommentItem.comment,boardCommentItem.userImgUri,boardCommentItem.date));
-                //Log.i("dbName",boardItem.name);
-                //Log.d("onChildAdded",dataSnapshot.getKey());
+
                 commentAdapter.notifyDataSetChanged();
             }
 
@@ -105,10 +106,16 @@ public class BoardCommentActivity extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) { }
         });
 
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+            for (UserInfo profile : user.getProviderData()) {
+                // Id of the provider (ex: google.com)
+                photoUrl = profile.getPhotoUrl();
+            }
     }
 
     public void clickBtn(View v){
-        BoardCommentItem boardCommentItem = new BoardCommentItem(mAuth.getCurrentUser().getDisplayName(),commentContent.getText().toString(),mAuth.getCurrentUser().getPhotoUrl().toString(),currentdate);
+        BoardCommentItem boardCommentItem = new BoardCommentItem(mAuth.getCurrentUser().getDisplayName(),commentContent.getText().toString(),photoUrl.toString(),currentdate);
         myRef.child("users").child(intent.getStringExtra("userid")).child("Comment").push().setValue(boardCommentItem);
         commentContent.setText("");
     }

@@ -2,6 +2,7 @@ package com.spurs.fourseasons;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,12 +30,6 @@ public class BoardAdapter extends RecyclerView.Adapter {
 
     ArrayList<BoardItem> boardItems;
     Context context;
-
-    FirebaseDatabase database= FirebaseDatabase.getInstance();
-    DatabaseReference myRef= database.getReference();
-
-    FirebaseAuth mAuth=FirebaseAuth.getInstance();
-
 
     public BoardAdapter(ArrayList<BoardItem> boardItems, Context context) {
         this.boardItems = boardItems;

@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -189,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         Glide.with(getApplicationContext()).load(imgUri).into(userImg);
                         userImg.setVisibility(View.VISIBLE);
                         Log.i("userUri1", String.valueOf(imgUri));
+
                     }
 
                     tvLogin.setVisibility(View.INVISIBLE);
@@ -446,20 +448,20 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         int id=item.getItemId();
 
-        if(id==R.id.item){
+/*        if(id==R.id.item){
             Intent intent=new Intent(this,BookmarkActivity.class);
             startActivity(intent);
             overridePendingTransition(R.anim.rignt_in_anim,R.anim.stop_anim);
 
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_icon,menu);
+        //getMenuInflater().inflate(R.menu.toolbar_icon,menu);
         return super.onCreateOptionsMenu(menu);
     }
 

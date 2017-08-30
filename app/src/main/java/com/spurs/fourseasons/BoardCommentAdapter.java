@@ -2,6 +2,7 @@ package com.spurs.fourseasons;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,8 @@ public class BoardCommentAdapter extends RecyclerView.Adapter {
         ((BoardCommentAdapter.ViewHolder)holder).contentText.setText(boardCommentItems.get(position).comment);
         Glide.with(context).load(boardCommentItems.get(position).userImgUri).into(((BoardCommentAdapter.ViewHolder) holder).userImg);
         ((BoardCommentAdapter.ViewHolder)holder).date.setText(boardCommentItems.get(position).date);
+
+        Log.i("aaaaaaaaa",boardCommentItems.get(position).userImgUri);
     }
 
     @Override
