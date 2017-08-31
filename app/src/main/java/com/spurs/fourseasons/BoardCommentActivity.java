@@ -7,7 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,10 +53,18 @@ public class BoardCommentActivity extends AppCompatActivity {
     String currentdate;
 
     Uri photoUrl;
+
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_comment);
+
+        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("게시판");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
         commentContent=(EditText)findViewById(R.id.edit_contentText);
@@ -119,4 +129,26 @@ public class BoardCommentActivity extends AppCompatActivity {
         myRef.child("users").child(intent.getStringExtra("userid")).child("Comment").push().setValue(boardCommentItem);
         commentContent.setText("");
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        //overridePendingTransition(R.anim.stop_anim,R.anim.right_out_anim);
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id=item.getItemId();
+
+        switch (id){
+            case android.R.id.home:
+                finish();
+                return  true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

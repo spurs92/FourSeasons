@@ -3,18 +3,18 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="titleTextColor">#000000</item>
+        <item name="colorPrimary">#e8eaf6</item>
+        <item name="colorPrimaryDark">#c5cae9</item>
+        <item name="colorAccent">#1a237e</item>
+        <item name="titleTextColor">@color/titleText</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
     </style>
 
     <style name="AppTheme_NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorControlNormal">#000000</item>
-        <item name="titleTextColor">#ffffff</item>
+        <item name="colorControlNormal">@color/titleText</item>
+        <item name="titleTextColor">@color/titleText</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
@@ -22,12 +22,12 @@
 
     <style name="ExpandedAppBar" parent="@android:style/TextAppearance.Medium">
 
-        <item name="android:textColor">#ffa8a8</item>
+        <item name="android:textColor">#ffffff</item>
 
     </style>
 
     <style name="CollapsedAppBar" parent="@android:style/TextAppearance.Medium">
-        <item name="android:textColor">#ff0000</item>
+        <item name="android:textColor">@color/titleText</item>
 
     </style>
 
@@ -51,7 +51,7 @@
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
-        <item name="color">#000000</item>
+        <item name="color">@color/titleText</item>
     </style>
 
 

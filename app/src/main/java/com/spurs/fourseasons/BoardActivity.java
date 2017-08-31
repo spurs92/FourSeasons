@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +42,8 @@ public class BoardActivity extends AppCompatActivity {
     String userEmail,userName;
     Uri imgUri;
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,9 +54,10 @@ public class BoardActivity extends AppCompatActivity {
         userName=intent.getStringExtra("userName");
         imgUri=intent.getParcelableExtra("imgUri");
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle("게시판");
+        toolbar=(Toolbar)findViewById(R.id.toolbar);
+        toolbar.setTitle("게시판");
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         recyclerView=(RecyclerView)findViewById(R.id.recyclerView);

@@ -22,10 +22,10 @@
             android:id="@+id/layout_tab"
             android:layout_width="360dp"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
-            app:tabTextColor="#dcdcdc"
-            app:tabSelectedTextColor="#ffffff"
-            app:tabIndicatorColor="#ffffff">
+            android:background="@color/colorPrimary"
+            app:tabTextColor="#1976d2"
+            app:tabSelectedTextColor="@color/titleText"
+            app:tabIndicatorColor="@color/titleText">
 
         </android.support.design.widget.TabLayout>
 

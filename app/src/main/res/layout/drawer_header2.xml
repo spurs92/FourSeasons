@@ -5,15 +5,37 @@
     android:layout_height="180dp"
     android:background="#ababab">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="#ffffff"/>
+        android:background="#ffffff"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ic_cloud_circle_black_48dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:text="서울 현재 날씨"
+            android:gravity="center_vertical"
+            android:textColor="@color/titleText"
+            android:textStyle="bold"
+            android:background="#ffffff"/>
+
+
+    </LinearLayout>
+
     
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:background="#ababab"
+        android:background="@color/colorPrimary"
         android:weightSum="2">
 
         <LinearLayout
@@ -71,12 +93,30 @@
         
     </LinearLayout>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="#ffff66"/>
+        android:background="#ffffff"
+        android:orientation="horizontal">
 
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ic_assignment_black_48dp"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:text="메뉴"
+            android:gravity="center_vertical"
+            android:textColor="@color/titleText"
+            android:textStyle="bold"
+            android:background="#ffffff"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>

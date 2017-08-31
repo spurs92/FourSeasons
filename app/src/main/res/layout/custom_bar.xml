@@ -10,6 +10,7 @@
         android:textSize="24sp"
         android:text="서울시 사계절"
         android:gravity="center"
-        android:layout_marginRight="16dp"/>
+        android:layout_marginRight="21dp"
+        android:textColor="@color/titleText"/>
 
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.spurs.fourseasons;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -60,6 +62,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
 
@@ -70,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     NavigationView navigationViewTwo;
 
     ImageView springImg,summerImg,autumnImg,winterImg;
+
+    Intent intent;
 
     ////////////////////drawer_header1
     SignInButton signInButton;
@@ -84,11 +90,18 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     FirebaseDatabase database;
     DatabaseReference myRef;
 
+    CircleImageView userImg;
+    CircleImageView userLogoutImg;
+
     TextView tvLogin, tvInfo;
     TextView tvLoginText;
     TextView tvEmail, tvName;
-    Button logoutBtn;
-    ImageView userImg;
+    TextView logout;
+
+    ImageView emailImg,nameImg;
+    ImageView loginBefore, loginAfter;
+    ImageView logoutX;
+
     FirebaseUser user;
 
     ////////////////////drawer_header2
@@ -111,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         navigationView=(NavigationView)findViewById(R.id.navi);
         navigationViewTwo=(NavigationView)findViewById(R.id.naviTwo);
 
-        navigationView.setItemIconTintList(null);
+        navigationViewTwo.setItemIconTintList(null);
 
         drawerToggle=new ActionBarDrawerToggle(this,drawerLayout,R.string.app_name,R.string.app_name);
         drawerLayout.addDrawerListener(drawerToggle);
@@ -149,31 +162,59 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
         /////////////////////////////////////////////////////////////////////////////첫번째 헤더
         View vTwo=navigationView.getHeaderView(0);
+        userImg=(CircleImageView)vTwo.findViewById(R.id.circle_userImg);
+        userLogoutImg=(CircleImageView)vTwo.findViewById(R.id.circle_userLogoutImg);
+        logout=(TextView)vTwo.findViewById(R.id.tv_logout);
         tvLogin=(TextView)vTwo.findViewById(R.id.tv_login);
         tvInfo=(TextView)vTwo.findViewById(R.id.tv_info);
         tvEmail=(TextView)vTwo.findViewById(R.id.tv_email);
         tvName=(TextView)vTwo.findViewById(R.id.tv_name);
         tvLoginText=(TextView)vTwo.findViewById(R.id.tv_loginText);
-        logoutBtn=(Button)vTwo.findViewById(R.id.btn_logout);
-        userImg=(ImageView)vTwo.findViewById(R.id.userImg);
 
+        emailImg=(ImageView)vTwo.findViewById(R.id.email_img);
+        nameImg=(ImageView)vTwo.findViewById(R.id.name_Img);
+
+        loginBefore=(ImageView)vTwo.findViewById(R.id.loginBefore_Img);
+        loginAfter=(ImageView)vTwo.findViewById(R.id.loginAfter_Img);
+        logoutX=(ImageView)vTwo.findViewById(R.id.logoutX_Img);
 
         signInButton=(SignInButton)vTwo.findViewById(R.id.singBtn);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                //Toast.makeText(MainActivity.this, "구글로그인", Toast.LENGTH_SHORT).show();
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(signInIntent, 10);
 
             }
         });
 
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
+        logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAuth.signOut();
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);     // 여기서 this는 Activity의 this
+
+                // 여기서 부터는 알림창의 속성 설정
+                builder.setTitle("로그아웃")        // 제목 설정
+                        .setMessage("로그아웃 하시겠습니까?")        // 메세지 설정
+                        .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+                            // 확인 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton){
+                                mAuth.signOut();
+                            }
+                        })
+                        .setNegativeButton("취소", new DialogInterface.OnClickListener(){
+                            // 취소 버튼 클릭시 설정
+                            public void onClick(DialogInterface dialog, int whichButton){
+                                dialog.cancel();
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();    // 알림창 객체 생성
+                dialog.show();    // 알림창 띄우기
+
             }
         });
 
@@ -183,12 +224,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
-
                     for (UserInfo profile : user.getProviderData()) {
 
                         imgUri=profile.getPhotoUrl();
                         Glide.with(getApplicationContext()).load(imgUri).into(userImg);
-                        userImg.setVisibility(View.VISIBLE);
                         Log.i("userUri1", String.valueOf(imgUri));
 
                     }
@@ -204,14 +243,25 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     tvName.setText(mAuth.getCurrentUser().getDisplayName());
 
                     signInButton.setVisibility(View.INVISIBLE);
-                    logoutBtn.setVisibility(View.VISIBLE);
+                    logout.setVisibility(View.VISIBLE);
+                    emailImg.setVisibility(View.VISIBLE);
+                    nameImg.setVisibility(View.VISIBLE);
+                    userLogoutImg.setVisibility(View.INVISIBLE);
+                    userImg.setVisibility(View.VISIBLE);
 
                     userEmail=mAuth.getCurrentUser().getUid();
                     userName=mAuth.getCurrentUser().getDisplayName();
 
+                    loginBefore.setVisibility(View.INVISIBLE);
+                    loginAfter.setVisibility(View.VISIBLE);
+                    logoutX.setVisibility(View.VISIBLE);
+
 
                 } else {
                     // User is signed out
+                    userImg.setVisibility(View.VISIBLE);
+                    logout.setVisibility(View.INVISIBLE);
+
                     tvLogin.setVisibility(View.VISIBLE);
                     tvInfo.setVisibility(View.INVISIBLE);
 
@@ -220,9 +270,14 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                     tvName.setVisibility(View.INVISIBLE);
 
                     signInButton.setVisibility(View.VISIBLE);
-                    logoutBtn.setVisibility(View.INVISIBLE);
-
+                    emailImg.setVisibility(View.INVISIBLE);
+                    nameImg.setVisibility(View.INVISIBLE);
+                    userLogoutImg.setVisibility(View.VISIBLE);
                     userImg.setVisibility(View.INVISIBLE);
+
+                    loginBefore.setVisibility(View.VISIBLE);
+                    loginAfter.setVisibility(View.INVISIBLE);
+                    logoutX.setVisibility(View.INVISIBLE);
 
                 }
                 // ...
@@ -307,11 +362,16 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
                 switch (item.getItemId()){
 
+                    case R.id.spring:
+                        intent=new Intent(getApplicationContext(),SpringActivity.class);
+                        startActivity(intent);
+                        break;
+
                     case R.id.board:
 
                         if (user != null) {
                             drawerLayout.closeDrawer(navigationView);
-                            Intent intent=new Intent(getApplicationContext(),BoardActivity.class);
+                            intent=new Intent(getApplicationContext(),BoardActivity.class);
                             intent.putExtra("userEmail",userEmail);
                             intent.putExtra("userName",userName);
                             intent.putExtra("imgUri",imgUri);
@@ -353,7 +413,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         }
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -384,10 +443,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                         // the auth state listener will be notified and logic to handle the
                         // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "로그인 실패.", Toast.LENGTH_SHORT).show();
                         }else {
                             Toast.makeText(MainActivity.this, "로그인 성공", Toast.LENGTH_SHORT).show();
-
                         }
                         // ...
                     }
@@ -398,7 +456,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
     }
-
 
     class MyThread extends Thread{
 
@@ -482,7 +539,5 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     public void clickWinter(View v){
 
     }
-
-
 
 }

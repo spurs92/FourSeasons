@@ -8,19 +8,20 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="240dp">
+        android:layout_height="220dp">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="@color/colorPrimaryDark">
+            app:contentScrim="@color/colorPrimary">
 
             <ImageView
                 android:id="@+id/img_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
