@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,6 +29,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class BoardCommentActivity extends AppCompatActivity {
 
@@ -47,7 +50,7 @@ public class BoardCommentActivity extends AppCompatActivity {
 
     EditText commentContent;
 
-    ImageView userImg;
+    CircleImageView userImg;
     TextView date;
 
     String currentdate;
@@ -77,8 +80,11 @@ public class BoardCommentActivity extends AppCompatActivity {
 
         userNick=(TextView)findViewById(R.id.tv_nickName);
         userContent=(TextView)findViewById(R.id.tv_contentText);
-        userImg=(ImageView)findViewById(R.id.userImg);
+        userImg=(CircleImageView)findViewById(R.id.userImg);
         date=(TextView)findViewById(R.id.tv_date);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
 
         Date date1=new Date(System.currentTimeMillis());
         SimpleDateFormat CurDateFormat=new SimpleDateFormat("yyyy/MM/dd a hh:mm");

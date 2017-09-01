@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/userImg"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -33,16 +33,16 @@
                     android:id="@+id/tv_nickName"
                     android:layout_width="match_parent"
                     android:layout_height="25dp"
+                    android:layout_marginLeft="15dp"
                     android:text="sefsefsefef"/>
 
                 <TextView
                     android:id="@+id/tv_date"
                     android:layout_width="match_parent"
-                    android:layout_height="25dp" />
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="15dp"/>
 
             </LinearLayout>
-
-
 
         </LinearLayout>
 
@@ -50,7 +50,9 @@
         <TextView
             android:id="@+id/tv_contentText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"/>
 
     </LinearLayout>
 

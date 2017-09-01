@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/userImg"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
@@ -46,7 +46,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginLeft="15dp">
 
                     <TextView
                         android:id="@+id/tv_nickName"
@@ -61,36 +62,56 @@
 
                 </LinearLayout>
 
-
-
             </LinearLayout>
             
             <TextView
                 android:id="@+id/tv_contentText"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"/>
 
         </LinearLayout>
         
     </android.support.v7.widget.CardView>
-    
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:text="댓글"
-        android:textSize="30sp"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_message_black_48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="5dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="댓글"
+            android:textSize="18sp"
+            android:gravity="center_vertical"/>
+
+    </LinearLayout>
+
+
     
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="280dp">
+        android:layout_height="300dp">
 
     </android.support.v7.widget.RecyclerView>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="#ffffff">
 
         <EditText
             android:id="@+id/edit_contentText"

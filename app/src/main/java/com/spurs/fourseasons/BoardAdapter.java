@@ -22,6 +22,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by alfo06-11 on 2017-08-23.
  */
@@ -65,7 +67,7 @@ public class BoardAdapter extends RecyclerView.Adapter {
 
         TextView name;
         TextView contentText;
-        ImageView uerImg;
+        CircleImageView uerImg;
         TextView date;
 
         public ViewHolder(final View itemView) {
@@ -74,7 +76,7 @@ public class BoardAdapter extends RecyclerView.Adapter {
 
             name=(TextView)itemView.findViewById(R.id.tv_nickName);
             contentText=(TextView)itemView.findViewById(R.id.tv_contentText);
-            uerImg=(ImageView)itemView.findViewById(R.id.userImg);
+            uerImg=(CircleImageView)itemView.findViewById(R.id.userImg);
             date=(TextView)itemView.findViewById(R.id.tv_date);
 
             itemView.setOnClickListener(new View.OnClickListener() {

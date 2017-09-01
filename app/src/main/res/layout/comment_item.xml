@@ -2,35 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="36dp"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/userImg"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:src="@mipmap/ic_launcher"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp">
 
             <TextView
                 android:id="@+id/tv_nickName"
                 android:layout_width="180dp"
-                android:layout_height="15dp"
+                android:layout_height="18dp"
                 android:text="ffffff"/>
 
             <TextView
                 android:id="@+id/tv_date"
                 android:layout_width="180dp"
-                android:layout_height="15dp"
+                android:layout_height="18dp"
                 android:text="ffffff"/>
 
         </LinearLayout>
@@ -40,8 +41,16 @@
     <TextView
         android:id="@+id/tv_contentText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaa"/>
+        android:layout_height="30dp"
+        android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="3dp"
+        android:background="@color/colorPrimaryDark"/>
 
 
 </LinearLayout>

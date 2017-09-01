@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -24,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class BoardWriteActivity extends AppCompatActivity {
 
     EditText contentText;
@@ -36,6 +39,9 @@ public class BoardWriteActivity extends AppCompatActivity {
     Uri userUri;
     String currentdate;
 
+    CircleImageView userImg;
+    TextView userNick;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,8 @@ public class BoardWriteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_board_write);
 
         contentText=(EditText)findViewById(R.id.edit_contentText);
+        userImg=(CircleImageView)findViewById(R.id.userImg);
+        userNick=(TextView)findViewById(R.id.userNick);
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
@@ -57,6 +65,9 @@ public class BoardWriteActivity extends AppCompatActivity {
         currentdate=CurDateFormat.format(date);
 
         userid=myRef.child("users").push().getKey();
+
+        Glide.with(this).load(userUri).into(userImg);
+        userNick.setText(userName);
 
     }
 
