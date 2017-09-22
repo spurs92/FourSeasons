@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +30,9 @@ public class SpringTab2Fragment extends Fragment {
             public void onRefresh() {
 
                 String serverUrl="http://spursweb.dothome.co.kr/seasons/urlSaveData.php";
+                Log.i("aa",serverUrl);
 
+                refreshLayout.setRefreshing(false);
             }
         });
 
