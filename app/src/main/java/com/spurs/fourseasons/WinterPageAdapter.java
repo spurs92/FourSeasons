@@ -17,7 +17,7 @@ public class WinterPageAdapter extends FragmentPagerAdapter {
         super(fm);
 
         frags[0]=new WinterTab2Fragment();
-        frags[1]=new SpringTab3Fragment();
+        frags[1]=new WinterTab3Fragment();
     }
 
     @Override

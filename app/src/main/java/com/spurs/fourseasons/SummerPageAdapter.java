@@ -17,7 +17,7 @@ public class SummerPageAdapter extends FragmentPagerAdapter {
         super(fm);
 
         frags[0]=new SummerTab2Fragment();
-        frags[1]=new SpringTab3Fragment();
+        frags[1]=new SummerTab3Fragment();
     }
 
     @Override

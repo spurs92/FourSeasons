@@ -17,7 +17,7 @@ public class AutumnPageAdapter extends FragmentPagerAdapter {
         super(fm);
 
         frags[0]=new AutumnTab2Fragment();
-        frags[1]=new SpringTab3Fragment();
+        frags[1]=new AutumnTab3Fragment();
     }
 
     @Override
