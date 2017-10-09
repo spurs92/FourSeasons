@@ -1,14 +1,10 @@
 package com.spurs.fourseasons;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +22,7 @@ import java.util.ArrayList;
  * Created by spurs on 2017/08-05(005).
  */
 
-public class SpringTab2Fragment extends Fragment {
+public class WinterTab2Fragment extends Fragment {
 
     RecyclerView recyclerView;
 
@@ -57,7 +53,7 @@ public class SpringTab2Fragment extends Fragment {
     class LoadData extends Thread{
         @Override
         public void run() {
-            String loadUrl = "http://spursweb.dothome.co.kr/fourseosons/loadSpringDB.php";
+            String loadUrl = "http://spursweb.dothome.co.kr/fourseosons/loadWinterDB.php";
             try {
                 URL url=new URL(loadUrl);
                 HttpURLConnection conn=(HttpURLConnection) url.openConnection();

@@ -29,12 +29,9 @@
                 android:id="@+id/title_tv"
                 android:layout_width="300dp"
                 android:layout_height="match_parent"
-                android:text="sefseesf"/>
-            <ImageView
-                android:id="@+id/bookMark_img"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@android:drawable/btn_plus"/>
+                android:text="sefseesf"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"/>
 
         </LinearLayout>
 

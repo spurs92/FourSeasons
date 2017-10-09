@@ -8,15 +8,15 @@ import android.support.v4.app.FragmentPagerAdapter;
  * Created by spurs on 2017/08-05(005).
  */
 
-public class SpringPageAdapter extends FragmentPagerAdapter {
+public class WinterPageAdapter extends FragmentPagerAdapter {
 
     Fragment[] frags=new Fragment[2];
     String[] titles=new String[]{"명소","축제"};
 
-    public SpringPageAdapter(FragmentManager fm) {
+    public WinterPageAdapter(FragmentManager fm) {
         super(fm);
 
-        frags[0]=new SpringTab2Fragment();
+        frags[0]=new WinterTab2Fragment();
         frags[1]=new SpringTab3Fragment();
     }
 

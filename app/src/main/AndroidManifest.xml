@@ -42,12 +42,16 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
 
-        <activity android:name=".BoardActivity"
-            android:theme="@style/AppTheme_NoActionBar"/>
+        <activity
+            android:name=".BoardActivity"
+            android:theme="@style/AppTheme_NoActionBar" />
         <activity
             android:name=".BoardWriteActivity"
             android:theme="@style/Transparent" />
-        <activity android:name=".BoardCommentActivity"
+        <activity
+            android:name=".BoardCommentActivity"
+            android:theme="@style/AppTheme_NoActionBar" />
+        <activity android:name=".PlaceDetailActivvity"
             android:theme="@style/AppTheme_NoActionBar"></activity>
     </application>
 

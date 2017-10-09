@@ -7,35 +7,40 @@
     tools:context="com.spurs.fourseasons.MainActivity"
     android:id="@+id/layout_drawer">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:weightSum="10">
                 <ImageView
                     android:id="@+id/spring_img"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:onClick="clickSpring"/>
+                    android:layout_height="0dp"
+                    android:scaleType="fitXY"
+                    android:onClick="clickSpring"
+                    android:layout_weight="2.5"/>
                 <ImageView
                     android:id="@+id/summer_img"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:onClick="clickSummer"/>
+                    android:layout_height="0dp"
+                    android:scaleType="fitXY"
+                    android:onClick="clickSummer"
+                    android:layout_weight="2.5"/>
                 <ImageView
                     android:id="@+id/autumn_img"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:onClick="clickAutumn"/>
+                    android:layout_height="0dp"
+                    android:scaleType="fitXY"
+                    android:onClick="clickAutumn"
+                    android:layout_weight="2.5"/>
                 <ImageView
                     android:id="@+id/winter_img"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:onClick="clickWinter"/>
+                    android:layout_height="0dp"
+                    android:scaleType="fitXY"
+                    android:onClick="clickWinter"
+                    android:layout_weight="2.5"/>
             </LinearLayout>
-        </ScrollView>
 
 
     <android.support.design.widget.NavigationView

@@ -141,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         autumnImg=(ImageView)findViewById(R.id.autumn_img);
         Glide.with(this).load(R.drawable.autumn).into(autumnImg);
         winterImg=(ImageView)findViewById(R.id.winter_img);
+        Glide.with(this).load(R.drawable.winter).into(winterImg);
 
 
         ////////////////////////////////////////////////////////////////// Configure Google Sign In
@@ -524,20 +525,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
     public void clickSpring(View v){
         Intent intent=new Intent(this,SpringActivity.class);
+        intent.putExtra("toolbar","spring");
         startActivity(intent);
         overridePendingTransition(R.anim.rignt_in_anim,R.anim.stop_anim);
     }
 
     public void clickSummer(View v){
-
+        Intent intent=new Intent(this,SpringActivity.class);
+        intent.putExtra("toolbar","summer");
+        startActivity(intent);
+        overridePendingTransition(R.anim.rignt_in_anim,R.anim.stop_anim);
     }
 
     public void clickAutumn(View v){
-
+        Intent intent=new Intent(this,SpringActivity.class);
+        intent.putExtra("toolbar","autumn");
+        startActivity(intent);
+        overridePendingTransition(R.anim.rignt_in_anim,R.anim.stop_anim);
     }
 
     public void clickWinter(View v){
-
+        Intent intent=new Intent(this,SpringActivity.class);
+        intent.putExtra("toolbar","winter");
+        startActivity(intent);
+        overridePendingTransition(R.anim.rignt_in_anim,R.anim.stop_anim);
     }
 
 }

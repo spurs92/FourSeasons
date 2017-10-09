@@ -46,23 +46,38 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <fragment
                 android:name="com.spurs.fourseasons.MySupportMapFragment"
                 android:id="@+id/map"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"/>
+                android:layout_height="200dp" />
 
-            <TextView
-                android:id="@+id/tv_addr"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp" />
+                android:layout_height="50dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_label_black_48dp" />
+
+                <TextView
+                    android:id="@+id/tv_addr"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"/>
+
+            </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tv_overview"
                 android:layout_width="match_parent"
-                android:layout_height="50dp" />
+                android:layout_height="100dp" />
 
             <TextView
                 android:id="@+id/tv_homepage"
