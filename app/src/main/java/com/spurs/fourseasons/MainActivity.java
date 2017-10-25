@@ -364,8 +364,35 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 switch (item.getItemId()){
 
                     case R.id.spring:
+                        drawerLayout.closeDrawer(navigationView);
                         intent=new Intent(getApplicationContext(),SpringActivity.class);
+                        intent.putExtra("toolbar","spring");
                         startActivity(intent);
+                        overridePendingTransition(R.anim.rignt_in_anim,R.anim.stop_anim);
+                        break;
+
+                    case R.id.summer:
+                        drawerLayout.closeDrawer(navigationView);
+                        intent=new Intent(getApplicationContext(),SpringActivity.class);
+                        intent.putExtra("toolbar","summer");
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.rignt_in_anim,R.anim.stop_anim);
+                        break;
+
+                    case R.id.autumn:
+                        drawerLayout.closeDrawer(navigationView);
+                        intent=new Intent(getApplicationContext(),SpringActivity.class);
+                        intent.putExtra("toolbar","autumn");
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.rignt_in_anim,R.anim.stop_anim);
+                        break;
+
+                    case R.id.winter:
+                        drawerLayout.closeDrawer(navigationView);
+                        intent=new Intent(getApplicationContext(),SpringActivity.class);
+                        intent.putExtra("toolbar","winter");
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.rignt_in_anim,R.anim.stop_anim);
                         break;
 
                     case R.id.board:
@@ -396,7 +423,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
                 return false;
             }
         });
-
 
     }////////////////////////////////////////////////////////////onCreate method..
 
